@@ -94,7 +94,11 @@
       
 
       let totalPrice = 0
+      const wishList = document.querySelector('#wishlist')
       const buyList = document.querySelector('#total')
+      const itemListed = document.createElement('li')
+      const cancelButton = document.createElement('button')
+      
       buyList.style = 'font-weight: bold;'
       
       //event listener to render content on screen when everything is loaded
@@ -132,10 +136,6 @@
       //function to add and remove items in list
       addToWishList = (item) => {
         
-        const wishList = document.querySelector('#wishlist')
-        
-        const itemListed = document.createElement('li')
-        const cancelButton = document.createElement('button')
         
         //styling of elements
         itemListed.classList.add('list-group-item')
