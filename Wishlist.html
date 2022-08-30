@@ -97,10 +97,10 @@
       
       //event listener to render content on screen when everything is loaded
       window.addEventListener('DOMContentLoaded', event => {
-        let Content = ''
+        let content = ''
 
         let flexContainer = `<div class='row'>`
-        Content += flexContainer
+        content += flexContainer
 
         //for loop to loop over products array
         for(let i=0; i<products.length; i++){
@@ -108,19 +108,19 @@
           let productsIndex = products[i]
           
           //add elements and attributes to Content variable
-          Content += `<div class="card" style="width: 18rem;">`;
-          Content += `<img src="${productsIndex.image}" class="card-img-top" alt="${productsIndex.image}">`;
-          Content += `<div class="card-body">`;
-          Content += `<h5 class="card-title">${productsIndex.title}</h5>`;
-          Content += `<p class="card-text">${productsIndex.categories}</p>`;
-          Content += `<p class="card-text">$${productsIndex.info.price}</p>`;
+          content += `<div class="card" style="width: 18rem;">`;
+          content += `<img src="${productsIndex.image}" class="card-img-top" alt="${productsIndex.image}">`;
+          content += `<div class="card-body">`;
+          content += `<h5 class="card-title">${productsIndex.title}</h5>`;
+          content += `<p class="card-text">${productsIndex.categories}</p>`;
+          content += `<p class="card-text">$${productsIndex.info.price}</p>`;
           //add id and onlick function to buyButton
-          Content += `<a href="#" class="btn btn-primary buybutton" id="${i}" onclick="addToWishList('${i}')">Buy!</a>`;
-          Content += `</div></div>`
+          content += `<a href="#" class="btn btn-primary buybutton" id="${i}" onclick="addToWishList('${i}')">Buy!</a>`;
+          content += `</div></div>`
         }//end of for loop
 
         //add content to appropiate element
-        document.getElementById('card-container').innerHTML = Content
+        document.getElementById('card-container').innerHTML = content
       })//end of addEventListener
 
       
