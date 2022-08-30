@@ -92,152 +92,90 @@
         image: 'img/ram.jpg'
       }];
 
+      let totalPrice = 0
       
       
+      //event listener to render content on screen when everything is loaded
+      window.addEventListener('DOMContentLoaded', event => {
+        let Content = ''
+
+        let flexContainer = `<div class='row'>`
+        Content += flexContainer
+
+        //for loop to loop over products array
+        for(let i=0; i<products.length; i++){
+          
+          let productsIndex = products[i]
+          
+          //add elements and attributes to Content variable
+          Content += `<div class="card" style="width: 18rem;">`;
+          Content += `<img src="${productsIndex.image}" class="card-img-top" alt="${productsIndex.image}">`;
+          Content += `<div class="card-body">`;
+          Content += `<h5 class="card-title">${productsIndex.title}</h5>`;
+          Content += `<p class="card-text">${productsIndex.categories}</p>`;
+          Content += `<p class="card-text">$${productsIndex.info.price}</p>`;
+          //add id and onlick function to buyButton
+          Content += `<a href="#" class="btn btn-primary buybutton" id="${i}" onclick="addToWishList('${i}')">Buy!</a>`;
+          Content += `</div></div>`
+        }//end of for loop
+
+        //add content to appropiate element
+        document.getElementById('card-container').innerHTML = Content
+      })//end of addEventListener
+
       
-
-let cardContainer;
-let cardSorting = document.createElement('div');
-cardSorting.className = 'row';
-cardContainer1 = document.getElementById('card-container');
-cardContainer1.appendChild(cardSorting);
-
-let createCard = (items) => {
-
-    
-
-    let card = document.createElement('div');
-    card.className = "card";
-    card.style = "width: 25rem;";
-
-    let cardHeader = document.createElement('div');
-    cardHeader.className = "card-header text-center";
-
-    let cardBody = document.createElement('div');
-    cardBody.className = 'card-body';
-
-    let prodImage = document.createElement('img');
-    prodImage.className = 'card-img-top';
-    prodImage.src = items.image;
-    
-    let title = document.createElement('h5');
-    title.innerText = items.title;
-    title.className = 'card-title';
-    
-    
-
-    let price = document.createElement('div');
-    price.innerText = `$${items.info.price}`;
-    price.className = 'card-price';
-    price.style = 'font-size: 1.5rem;';
-    
-    let info = document.createElement('p');
-    let info2 = document.createElement('p');
-    let info3 = document.createElement('p');
-    let info4 = document.createElement('p');
-    let info5 = document.createElement('p');
-    
-    
-
-    
-    /* checkForInfo(items.info.type);
-    checkForInfo(items.info.speed);
-    checkForInfo(items.info.cores);
-    checkForInfo(items.info.socket);
-    checkForInfo(items.info.chipset); */
-
-    let button = document.createElement('a');
-    button.className = 'btn btn-primary';
-    
-    button.id = `${items.title}`;
-    button.innerText = 'Add to wishlist';
-
-    cardBody.appendChild(cardHeader)
-    cardHeader.appendChild(title);
-    cardBody.appendChild(prodImage);
-    cardBody.appendChild(info);
-    cardBody.appendChild(info2);
-    cardBody.appendChild(info3);
-    cardBody.appendChild(info4);
-    cardBody.appendChild(info5);
-    if(items.info.cores){info.innerText += `Cores: ${items.info.cores}`
-    } else{info.innerText += `test`
-            info.className = 'visually-hidden'}
-    if(items.info.socket){info2.innerText += `Socket: ${items.info.socket}`
-    } else{info.innerText += `test`
-            info.className = 'visually-hidden'}
-    if(items.info.chipset){info3.innerText += `Chipset: ${items.info.chipset}`
-    } else{info.innerText += `test`
-            info.className = 'visually-hidden'}
-    if(items.info.type){info4.innerText = `Type: ${items.info.type}`
-    } else{info.innerText += `test`
-            info.className = 'visually-hidden'}
-    if(items.info.speed){info5.innerText += `Speed: ${items.info.speed}`
-    } else{info.innerText += `test`
-            info.className = 'visually-hidden'}
-    
+      
+      //function to add and remove items in list
+      addToWishList = (item) => {
+        
+        const wishList = document.querySelector('#wishlist')
+        const buyList = document.querySelector('#total')
+        const itemListed = document.createElement('li')
+        const cancelButton = document.createElement('button')
+        
+        //make box appear around item in list
+        itemListed.classList.add('list-group-item')
+        
+        //add item + price to list
+        itemListed.textContent = products[item].title + ' : ' + parseInt(products[item].info.price) + '$';
+        
+        //add attributes to button element
+        cancelButton.textContent = 'Remove'
+        cancelButton.className = 'btn btn-outline-dark'
+        cancelButton.innerText = 'Remove Item'
+        //add style to button to make it adjust size on different screens
+        cancelButton.style = `display: block;
+                              margin-left: auto;
+                              margin-right: auto;
+                              width: auto;`
+        
+        
+        //cancelButton function to remove items from whishlist
+        cancelButton.onclick = function() {
+          //remove parent node
+              this.parentNode.remove();
+                //subtract removed item from total price
+                document.getElementById('total').textContent = `Total: ${totalPrice -= products[item].info.price}$`;
+                //check if total price is 0, then replace total with 'Empty'
+              (totalPrice == 0) ? document.getElementById('total').textContent = `Empty...` : console.log(products[item].info.price) 
+          }//end of cancelButton function
+        
+        //append elements
+        wishList.appendChild(itemListed);
+        itemListed.appendChild(cancelButton);
+        
+        //add to price when item is selected
+        totalPrice += products[item].info.price
+        document.getElementById('total').textContent = `Total: ${totalPrice}$`;
 
 
-    cardBody.appendChild(price);
-    cardBody.appendChild(button);
-    card.appendChild(cardBody);
-    cardSorting.appendChild(card);
+        
 
-
-  function checkForInfo(information){
-    if(information){
-      return info.innerText += `${information} `;
-    }//else {info.innerText = ``}
-  }
-}
-
-  
-
-  
-
-let initListOfProducts = () => {
-    if (cardContainer) {
-        document.getElementById('card-container').replaceWith(cardContainer);
-        return;
-    }
-
-    cardContainer = document.getElementById('card-container');
-    products.forEach((i) => {
-        createCard(i);
-    });
-
-    
-};
-
-initListOfProducts()
-
-document.querySelectorAll(".btn").forEach(item => {
-  item.addEventListener('click', function(e){
-    e.preventDefault();
-
-    //Declare variables
-    let wishlist = document.querySelector('#wishlist');
-    let total = document.querySelector('#total');
-    let listItem = document.createElement('li')
-    
-    listItem.className = 'list-group-item';
-    
-    //count the current items. Give "Empty" if no items.
-    total.innerText = `Total: ${wishlist.childElementCount - 1}`;
-    listItem.onclick = function() {
-      this.remove(listItem);
-      total.innerText = `Total: ${wishlist.childElementCount - 2}`
-      if(wishlist.childElementCount < 3){total.innerText = "Empty..."}
-    }
-    
-    //Add the items to the list
-    listItem.innerText = `${e.target.id}`;
-    wishlist.appendChild(listItem);
-    
-    
-})})
-
+      }
       
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js" integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous"></script>
+  
 </body>
 </html>
