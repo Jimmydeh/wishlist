@@ -91,12 +91,16 @@
         categories: ['RAM', 'Corsair', 'parts'],
         image: 'img/ram.jpg'
       }];
+      
 
       let totalPrice = 0
-      
+      const buyList = document.querySelector('#total')
+      buyList.style = 'font-weight: bold;'
       
       //event listener to render content on screen when everything is loaded
       window.addEventListener('DOMContentLoaded', event => {
+
+        
         let content = ''
 
         let flexContainer = `<div class='row'>`
@@ -129,13 +133,14 @@
       addToWishList = (item) => {
         
         const wishList = document.querySelector('#wishlist')
-        const buyList = document.querySelector('#total')
+        
         const itemListed = document.createElement('li')
         const cancelButton = document.createElement('button')
         
         //make box appear around item in list
         itemListed.classList.add('list-group-item')
         itemListed.style = 'font-weight: bold;'
+        
         
         //add item + price to list
         itemListed.textContent = products[item].title + ' : ' + parseInt(products[item].info.price) + '$';
