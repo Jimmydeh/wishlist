@@ -93,11 +93,8 @@
       }];
 
       let totalPrice = 0
-      const wishList = document.querySelector('#wishlist')
-      const buyList = document.querySelector('#total')
-      const itemListed = document.createElement('li')
-      const cancelButton = document.createElement('button')
       
+      const buyList = document.querySelector('#total')
       buyList.style = 'font-weight: bold;'
       
   document.addEventListener('DOMContentLoaded', event => {
@@ -129,7 +126,10 @@
       
       //function to add and remove items in list
   addToWishList = (item) => {
-        
+      
+      const wishList = document.querySelector('#wishlist')
+      const itemListed = document.createElement('li')
+      const cancelButton = document.createElement('button')
         //styling of elements
         itemListed.classList.add('list-group-item')
         itemListed.style = 'font-weight: bold;'
